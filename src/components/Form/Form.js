@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import shortid from 'shortid';
-import { addContact } from '../../redux/contacts/contacts-actions';
+// import shortid from 'shortid';
+import { addContact } from '../../redux/contacts/contacts-operations';
 import { getContactsList } from '../../redux/contacts/contacts-selectors';
 import s from './Form.module.css';
 
 export default function Form({ onSubmit }) {
   const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
-  const [id, setId] = useState('');
+  const [phone, setPhone] = useState('');
+  // const [id, setId] = useState('');
 
   const dispatch = useDispatch();
   const contactsList = useSelector(getContactsList);
@@ -18,12 +18,12 @@ export default function Form({ onSubmit }) {
 
     switch (name) {
       case 'name':
-        setId(shortid.generate());
+        // setId(shortid.generate());
         setName(value);
         break;
 
-      case 'number':
-        setNumber(value);
+      case 'phone':
+        setPhone(value);
         break;
 
       default:
@@ -33,22 +33,22 @@ export default function Form({ onSubmit }) {
 
   const handleSubmit = event => {
     event.preventDefault();
-    addContacts({ id, name, number });
+    addContacts({ name, phone });
     resetForm();
   };
 
   const resetForm = () => {
     setName('');
-    setNumber('');
-    setId('');
+    setPhone('');
+    // setId('');
   };
 
-  const addContacts = ({ id, name, number }) => {
+  const addContacts = contact => {
     contactsList.some(
       contact => contact.name.toLowerCase() === name.toLowerCase(),
     )
       ? alert(`${name} is already in contacts.`)
-      : dispatch(addContact({ id, name, number }));
+      : dispatch(addContact(contact));
   };
 
   return (
@@ -73,11 +73,11 @@ export default function Form({ onSubmit }) {
         <input
           className={s.input}
           type="tel"
-          name="number"
+          name="phone"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
           required
-          value={number}
+          value={phone}
           onChange={handleChange}
         />
       </label>
