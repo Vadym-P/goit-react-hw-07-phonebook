@@ -1,53 +1,20 @@
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Form from './components/Form';
 import Section from './components/Section';
 import ContactsList from './components/ContactsList';
 import Filter from './components/Filter';
+import Loader from './components/Loader';
+import { fetchContacts } from './redux/contacts/contacts-operations';
 import s from './App.module.css';
 
-// [
-//   { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-//   { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-//   { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-//   { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-// ];
 export default function App() {
-  // const [contacts, setContacts] = useState([]);
-  // const [filter, setFilter] = useState('');
+  const dispatch = useDispatch();
+  const isLoading = useSelector(state => state.contacts.loading);
 
-  // useEffect(() => {
-  //   const contacts = localStorage.getItem('contacts');
-  //   const parsedContacts = JSON.parse(contacts);
-  //   setContacts(parsedContacts);
-  // }, []);
-
-  // useEffect(() => {
-  //   localStorage.setItem('contacts', JSON.stringify(contacts));
-  // }, [contacts]);
-
-  // const addContact = data => {
-  //   contacts.some(
-  //     contact => contact.name.toLowerCase() === data.name.toLowerCase(),
-  //   )
-  //     ? alert(`${data.name} is already in contacts.`)
-  //     : setContacts(prevState => [...prevState, data]);
-  // };
-
-  // const changeFilter = e => {
-  //   setFilter(e.currentTarget.value);
-  // };
-
-  // const getFilteredContact = () => {
-  //   const normalizedFilter = filter.toLowerCase();
-  //   return contacts.filter(contact =>
-  //     contact.name.toLowerCase().includes(normalizedFilter),
-  //   );
-  // };
-
-  // const deleteContact = contactId => {
-  //   setContacts(prevState =>
-  //     prevState.filter(contact => contact.id !== contactId),
-  //   );
-  // };
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   return (
     <div className={s.container}>
@@ -58,6 +25,7 @@ export default function App() {
       <h2 className={s.title_contacts}>Contacts</h2>
       <Section>
         <Filter />
+        {isLoading && <Loader />}
         <ContactsList />
       </Section>
     </div>

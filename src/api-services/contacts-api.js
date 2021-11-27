@@ -13,7 +13,3 @@ export const addContact = contact => {
 export const deleteContact = contactId => {
   return axios.delete(`/contacts/${contactId}`);
 };
-
-export const updateContact = (contactId, update) => {
-  return axios.patch(`/contacts/${contactId}`, update).then(({ data }) => data);
-};

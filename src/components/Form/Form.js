@@ -1,14 +1,12 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-// import shortid from 'shortid';
 import { addContact } from '../../redux/contacts/contacts-operations';
 import { getContactsList } from '../../redux/contacts/contacts-selectors';
 import s from './Form.module.css';
 
-export default function Form({ onSubmit }) {
+export default function Form() {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  // const [id, setId] = useState('');
 
   const dispatch = useDispatch();
   const contactsList = useSelector(getContactsList);
@@ -18,7 +16,6 @@ export default function Form({ onSubmit }) {
 
     switch (name) {
       case 'name':
-        // setId(shortid.generate());
         setName(value);
         break;
 
@@ -40,7 +37,6 @@ export default function Form({ onSubmit }) {
   const resetForm = () => {
     setName('');
     setPhone('');
-    // setId('');
   };
 
   const addContacts = contact => {
